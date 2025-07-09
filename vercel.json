@@ -2,5 +2,10 @@
   "buildCommand": "cd portfolio && hugo",
   "outputDirectory": "portfolio/public",
   "installCommand": "echo 'No install command needed for Hugo'",
-  "framework": "hugo"
+  "framework": "hugo",
+  "build": {
+    "env": {
+      "HUGO_VERSION": "0.110.0"
+    }
+  }
 } 
