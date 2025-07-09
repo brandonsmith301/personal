@@ -1,7 +1,7 @@
 baseurl: "/"
 languageCode: "en-US"
 title: "Brandon Smith"
-theme: "../themes/blog"
+theme: "blog"
 ignoreFiles: [ "\\.ipynb$", "\\.ipynb_checkpoints$", "_cache$" ]
 footnotereturnlinkcontents: "↩"
 
