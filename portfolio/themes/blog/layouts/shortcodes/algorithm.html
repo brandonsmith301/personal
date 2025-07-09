@@ -1,0 +1,9 @@
+{{ $caption := .Get "caption" | default "Algorithm" }}
+{{ $content := .Inner }}
+
+<div class="algorithm">
+  <div class="caption">{{ $caption }}</div>
+  <div class="algorithmic">
+    {{ $content | markdownify }}
+  </div>
+</div> 

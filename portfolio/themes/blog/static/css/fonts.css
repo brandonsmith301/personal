@@ -1,0 +1,12 @@
+body {
+  font-family: Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Latin Modern Roman', serif;
+}
+.home blockquote {
+  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, serif;
+}
+code {
+  font-family: Consolas, Courier, 'Lucida Console', 'Courier New', monospace;
+}
+pre, code {
+  font-size: .95em;
+}

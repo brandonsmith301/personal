@@ -1,0 +1,25 @@
+baseurl: "/"
+languageCode: "en-US"
+title: "A Hugo theme inspired by paged.js"
+theme: "../themes/blog"
+ignoreFiles: [ "\\.ipynb$", "\\.ipynb_checkpoints$", "_cache$" ]
+footnotereturnlinkcontents: "↩"
+
+outputs:
+  home: [ html, rss, json ]
+
+params:
+  description: ""
+  logo:
+    en:
+      alt:
+      img: /assets/icon.png
+      url: /
+  footer: "&copy; [Brandon Smith](https://brandonsmith301.github.io) {Year}"
+
+markup:
+  highlight:
+    codeFences: false
+  goldmark:
+    renderer:
+      unsafe: true

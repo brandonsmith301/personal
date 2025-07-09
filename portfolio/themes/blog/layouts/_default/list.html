@@ -1,0 +1,20 @@
+{{ define "main" }}
+<h1 class="title">{{ .Title | markdownify }}</h1>
+{{ with .Params.subtitle }}<h2 class="subtitle">{{ . | markdownify }}</h2>{{ end }}
+<div class="main{{ if not .Content }} archive{{ end }}">
+  {{ .Content }}
+  {{ block "page-list" . }}
+    {{ range .RegularPages }}
+      <div class="toc-line">
+        <a href="{{ .RelPermalink }}">
+          <div class="meta-line small">
+            {{ partial "meta.html" . }}
+          </div>
+          {{ .Title | markdownify }}
+        </a>
+      </div>
+    {{ end }}
+  {{ end }}
+  {{ partial "main_extra.html" . }}
+</div>
+{{ end }}
