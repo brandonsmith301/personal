@@ -1,6 +1,6 @@
 baseurl: "/"
 languageCode: "en-US"
-title: "A Hugo theme inspired by paged.js"
+title: "Brandon Smith"
 theme: "../themes/blog"
 ignoreFiles: [ "\\.ipynb$", "\\.ipynb_checkpoints$", "_cache$" ]
 footnotereturnlinkcontents: "↩"
