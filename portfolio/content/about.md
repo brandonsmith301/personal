@@ -8,7 +8,7 @@ menu:
     weight: 1
 ---
 
-My name is Brandon, and I am currently a Data Systems Officer at Monash University.
+My name is Brandon, and I work with data at Monash University.
 
 I tend to jump between various topics of interest, and I've realised that I need a way to stay consistent. The true purpose here is to provide myself with a space to share the things I am currently learning. 
 
@@ -16,7 +16,7 @@ I am interested in machine learning, optimisation theory, and anything related t
 
 Besides all of the above, my other favourites in the world are my partner and our dog. [Hannah](https://portfolio-dun-three-71.vercel.app/) is a software engineer, and Muffin is a 20kg ball of crazy (English Staffordshire Terrier).
 
-### Curriculum Vitae
+### Work / Education
 
 <div class="content-block">
   <div class="content-title">
@@ -25,7 +25,7 @@ Besides all of the above, my other favourites in the world are my partner and ou
   <div class="content-box">
     <div class="content-entry">
       <div>
-        <strong>Data Systems Officer</strong><br>
+        <strong>Data Analyst</strong><br>
         <em>Monash University</em><br>
         <div class="content-description">Planning and Performance, Faculty of Arts</div>
       </div>
