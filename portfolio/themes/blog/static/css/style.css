@@ -1,10 +1,10 @@
 :root {
   --body-width: 992px;
   --text-width: 620px;
-  --bg-body: #dedad6;
-  --bg-block: #d6d1cc;
-  --border-color: #999;
-  --box-shadow: 5px 5px 5px #ccc;
+  --bg-body: #1a1a1a;
+  --bg-block: #2a2a2a;
+  --border-color: #444;
+  --box-shadow: 5px 5px 5px #000;
 }
 
 * {
@@ -15,7 +15,7 @@ body {
   max-width: var(--body-width);
   min-height: calc(100vh - 3em);
   background-color: var(--bg-body);
-  color: #333;
+  color: #e0e0e0;
   margin: auto;
   padding: 1em;
   line-height: 1.5;
