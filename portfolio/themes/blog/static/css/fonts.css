@@ -1,11 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Source+Code+Pro&display=swap');
+
 body {
-  font-family: Palatino, 'Palatino Linotype', 'Palatino LT STD', 'Latin Modern Roman', sans-serif;
+  font-family: 'EB Garamond', serif;
 }
 .home blockquote {
-  font-family: 'Palatino Linotype', 'Book Antiqua', Palatino, sans-serif;
+  font-family: 'EB Garamond', serif;
 }
 code {
-  font-family: Consolas, Courier, 'Lucida Console', 'Courier New', monospace;
+  font-family: 'Source Code Pro', monospace;
 }
 pre, code {
   font-size: .95em;
