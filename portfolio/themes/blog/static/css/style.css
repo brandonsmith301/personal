@@ -15,6 +15,7 @@ body {
   max-width: var(--body-width);
   min-height: calc(100vh - 3em);
   background-color: var(--bg-body);
+  color: #333;
   margin: auto;
   padding: 1em;
   line-height: 1.5;
@@ -457,7 +458,6 @@ li li {
   }
 }
 
-html,
 img,
 video,
 iframe {
