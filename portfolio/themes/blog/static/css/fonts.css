@@ -2,6 +2,7 @@
 
 body {
   font-family: 'EB Garamond', serif;
+  font-size: clamp(0.9rem, 0.8rem + 0.5vw, 1.1rem);
 }
 .home blockquote {
   font-family: 'EB Garamond', serif;
