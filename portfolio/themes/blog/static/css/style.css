@@ -461,7 +461,6 @@ html,
 img,
 video,
 iframe {
-  filter: invert(1);
 }
 
 .main img {

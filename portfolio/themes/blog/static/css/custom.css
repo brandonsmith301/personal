@@ -204,7 +204,6 @@ span.hash-note::before {
 .bg-number,
 .note-ref:has(+ .side:hover) {
   background: var(--bg-body);
-  filter: invert(1);
   opacity: .6;
 }
 
@@ -261,7 +260,8 @@ span.hash-note::before {
   }
 
   blockquote .side-right {
-    margin-right: calc(var(--text-width) + 2.5rem * 2 - var(--body-width) - 2rem);
+    margin-right: calc(var(--text-width) + 2.5rem * 2 - var(--body-width) - 2rem
+);
   }
 }
 
@@ -351,4 +351,23 @@ sup a, .footnote-ref {
 
 .algorithmic ol > li:last-child strong {
   color: #dc3545; /* Red for Return */
+}
+
+html {
+    background-color: #121212;
+}
+
+body {
+    background-color: #121212;
+    color: #e8e6e3;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img, video, iframe {
+    filter: invert(1) hue-rotate(180deg);
+}
+
+a {
+    color: #82aaff;
 }
