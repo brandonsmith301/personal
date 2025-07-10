@@ -1,10 +1,10 @@
 :root {
   --body-width: 992px;
   --text-width: 620px;
-  --bg-body: white;
-  --bg-block: #f9f9f9;
-  --border-color: #ddd;
-  --box-shadow: 5px 5px 5px #eee;
+  --bg-body: #dedad6;
+  --bg-block: #d6d1cc;
+  --border-color: #999;
+  --box-shadow: 5px 5px 5px #ccc;
 }
 
 * {
@@ -457,20 +457,11 @@ li li {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg-body: #dedad6;
-    --bg-block: #d6d1cc;
-    --border-color: #999;
-    --box-shadow: 5px 5px 5px #ccc;
-  }
-
-  html,
-  img,
-  video,
-  iframe {
-    filter: invert(1);
-  }
+html,
+img,
+video,
+iframe {
+  filter: invert(1);
 }
 
 .main img {
