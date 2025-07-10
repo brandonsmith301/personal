@@ -25,7 +25,7 @@ Besides all of the above, my other favourites in the world are my partner and ou
   <div class="content-box">
     <div class="content-entry">
       <div>
-        <strong>Data Analyst</strong><br>
+        <strong>Data & Systems</strong><br>
         <em>Monash University</em><br>
         <div class="content-description">Planning and Performance, Faculty of Arts</div>
       </div>
