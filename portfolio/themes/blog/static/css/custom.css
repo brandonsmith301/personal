@@ -273,82 +273,16 @@ sup a, .footnote-ref {
   cursor: pointer;
 }
 
-/* LaTeX Algorithm Styling */
-.algorithm {
-  background-color: #f8f9fa;
-  border: 1px solid #e9ecef;
-  border-radius: 6px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
-  font-family: 'Courier New', monospace;
-  font-size: 0.9em;
-  line-height: 1.6;
+.logo {
+  display: flex;
 }
 
-.algorithm .caption {
-  font-weight: bold;
-  font-size: 1.1em;
-  margin-bottom: 1rem;
-  text-align: center;
-  color: #495057;
-  border-bottom: 2px solid #dee2e6;
-  padding-bottom: 0.5rem;
+.logo a {
+  display: inline-block;
+  margin-right: 40px;
 }
 
-.algorithmic {
-  counter-reset: algorithm-line;
-}
-
-.algorithmic ol {
-  counter-reset: algorithm-line;
-  list-style: none;
-  padding-left: 0;
-}
-
-.algorithmic ol > li {
-  counter-increment: algorithm-line;
-  margin: 0.5rem 0;
-  padding-left: 2rem;
-  position: relative;
-}
-
-.algorithmic ol > li::before {
-  content: counter(algorithm-line);
-  position: absolute;
-  left: 0;
-  color: #6c757d;
-  font-weight: bold;
-  min-width: 1.5rem;
-}
-
-.algorithmic ul {
-  list-style: none;
-  padding-left: 1rem;
-}
-
-.algorithmic ul > li {
-  margin: 0.25rem 0;
-  padding-left: 1rem;
-  position: relative;
-}
-
-.algorithmic ul > li::before {
-  content: "•";
-  position: absolute;
-  left: 0;
-  color: #6c757d;
-}
-
-/* Color coding for algorithm keywords */
-.algorithmic strong {
-  color: #0d6efd;
-  font-weight: bold;
-}
-
-.algorithmic ol > li:nth-child(1) strong {
-  color: #198754; /* Green for Initialize */
-}
-
-.algorithmic ol > li:last-child strong {
-  color: #dc3545; /* Red for Return */
+.logo a img {
+  height: 60px;
+  width: auto;
 }

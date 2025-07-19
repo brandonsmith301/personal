@@ -81,6 +81,11 @@ This means that we can write the following function to solve the linear regressi
 
 ```python
 def lingress(A, y, intercept=True):
+    """
+    A: matrix of features
+    y: vector of observations
+    intercept: whether to include an intercept term
+    """
     if intercept:
         A = np.vstack([A.flatten(), np.ones(len(A))]).T
     return np.linalg.inv(A.T @ A) @ A.T @ y
@@ -225,6 +230,12 @@ The updated objective function in code is:
 
 ```python
 def obj(y, A, x, C):
+    """
+    y: vector of observations
+    A: matrix of features
+    x: vector of parameters
+    C: vector of cluster assignments
+    """
     cost = 0
     A = np.column_stack([A, np.ones(len(A))])
     for j in range(len(x)):
@@ -252,6 +263,10 @@ You can easily compute this in Python using the following code:
 
 ```python
 def S(m, n):
+    """
+    m: number of observations
+    n: number of clusters
+    """
     s = 0
     for i in range(n + 1):
         s += (-1) ** (n - i) * math.comb(n, i) * (i**m)
@@ -298,6 +313,12 @@ With our initial partition, we can compute the parameter vectors `$(x_{j1}, \ldo
 
 ```python
 def find_x(A, y, C, k=3):
+    """
+    A: matrix of features
+    y: vector of observations
+    C: vector of cluster assignments
+    k: number of clusters
+    """
     x_list = []
     for j in range(k):
         Aj = A[C == j]
@@ -384,10 +405,22 @@ We will start by first defining a few helper functions:
 
 ```python
 def subset_obj(y, A, x):
+    """
+    y: vector of observations
+    A: matrix of features
+    x: vector of parameters
+    """
     A = np.column_stack([A, np.ones(len(A))])
     return np.sum((y - A @ x) ** 2)
 
 def cur_obj(y, A, C, i, p):
+    """
+    y: vector of observations
+    A: matrix of features
+    C: vector of cluster assignments
+    i: index of observation
+    p: index of cluster
+    """
     x = lingress(A[C == C[i]], y[C == C[i]])
     c_obj = subset_obj(y[C == C[i]], A[C == C[i]], x)
 
@@ -396,6 +429,14 @@ def cur_obj(y, A, C, i, p):
     return c_obj
 
 def new_obj(y, A, C, i, p, Cp):
+    """
+    y: vector of observations
+    A: matrix of features
+    C: vector of cluster assignments
+    i: index of observation
+    p: index of cluster
+    Cp: vector of cluster assignments after move
+    """
     x = lingress(A[Cp == C[i]], y[Cp == C[i]])
     n_obj = subset_obj(y[Cp == C[i]], A[Cp == C[i]], x)
 
@@ -410,6 +451,13 @@ Both the current and new objective functions are used to compute the improvement
 
 ```python
 def iterative_improvement(A, y, C, k, l=1):
+    """
+    A: matrix of features
+    y: vector of observations
+    C: vector of cluster assignments
+    k: number of clusters
+    l: minimum number of observations per cluster
+    """
     m = A.shape[0]
     i = m - 1
 
@@ -457,7 +505,88 @@ By running this complete algorithm we will get the following visualisation:
 
 If you refer back to the initial visualisation (the animated gif) you will see that these results are different. That is because the algorithm is not deterministic due to the random initialisation. 
 
-[^1]: Späth, H. (1979). Algorithm 39 Clusterwise linear regression. Computing, 22, 367-373.
+This means we can run the algorithm multiple times and select the best solution, but before we do that we can first put together the initialisation function:
+
+```python
+def initialise(A, k, l):
+    """
+    A: matrix of features
+    k: number of clusters
+    l: minimum number of observations per cluster
+    """
+    check = False
+
+    while not check:
+        C = np.random.randint(0, k, A.shape[0])
+        check = np.all(np.bincount(C, minlength=k) > l)
+    return C
+```
+
+Now we can run this for 100 runs and get some simple statistics:
+
+```python
+k = 3
+l = 1
+
+history = []
+
+for _ in range(100):
+    C = initialise(A, k, l)
+    C = iterative_improvement(A, y, C, k, l=1)
+    x = find_x(A, y, C)
+
+    history.append(obj(y, A, x, C))
+```
+
+We can first check the minimum and maximum values:
+
+```python
+print(f"Min: {np.min(history):.2f}")
+print(f"Max: {np.max(history):.2f}")
+```
+
+```python
+Min: 1.75
+Max: 14.80
+```
+
+This means that our best solution is 1.75 and our worst solution is 14.80 which is a large difference. This is why it is good to run this algorithm multiple times. 
+
+But another thing we can check is the mean, standard deviation and coefficient of variation:
+
+```python
+mean_obj = np.mean(history)
+std_obj = np.std(history)
+cv = std_obj / mean_obj
+```
+
+Which gives us:
+
+```python
+print(f"Mean: {mean_obj:.2f}")
+print(f" Std: {std_obj:.2f}")
+print(f"  CV: {cv:.2f}")
+```
+
+```python
+MEAN: 4.49
+ STD: 5.31
+  CV: 1.18
+```
+
+The coefficient of variation is 1.18 which is quite high, what this means is that the standard deviation is quite large relative to the mean (118% of the mean). However, this isn't anything new and is a result of having random initialisations.
+
+## Closing Thoughts
+
+The algorithm is quite simple and easy to implement once you understand how to formulate the problem. It is very similar to `$k$`-means clustering, but instead of using the mean of the observations in each cluster, we use the parameters of the linear regression model but because it is so similar to `$k$`-means clustering, it is very easy to get confused and program it incorrectly. 
+
+The first time I tried to implement it, I made the mistake of using the mean of the observations in each cluster, then fitting a linear regression model to each cluster. This is incorrect because the mean is not the best way to fit a linear regression model to the data.
+
+While an obvious mistake, these types of mistakes are easy to make.. well for me at least!
+
+
+[^1]: Späth, H. (1979). Algorithm 39 Clusterwise linear regression. Computing, 22(4), 367–373. https://doi.org/10.1007/bf02265317
+
 [^2]: Späth, H. (1977). Computational experiences with the exchange method: Applied to four commonly used partitioning cluster analysis criteria. European Journal of Operational Research, 1(1), 23–31. https://doi.org/10.1016/S0377-2217(77)81005-9
 
 

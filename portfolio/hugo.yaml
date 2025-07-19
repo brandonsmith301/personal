@@ -10,11 +10,29 @@ outputs:
 
 params:
   description: ""
-  logo:
-    en:
-      alt:
-      img: /assets/icon.png
-      url: /
+  logos:
+  - alt: B
+    img: /assets/b.png
+    url: /
+  - alt: R
+    img: /assets/r.png
+    url: /
+  - alt: A
+    img: /assets/a.png
+    url: /
+  - alt: N
+    img: /assets/n.png
+    url: /
+  - alt: D
+    img: /assets/d.gif
+    url: /
+  - alt: C
+    img: /assets/o.png
+    url: /
+  - alt: N
+    img: /assets/n.png
+    url: /
+
   footer: "&copy; [Brandon Smith](https://brandonsmith301.github.io) {Year}"
 
 markup:

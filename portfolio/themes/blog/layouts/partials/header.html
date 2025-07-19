@@ -53,7 +53,7 @@
     <div class="crop-h"></div><div class="crop-v"></div><div class="crop-c"></div>
     <nav class="nav-top small">
     <div class="logo">
-    {{ with default .Site.Params.logo.en (index .Site.Params.logo $section) }}
+    {{- range .Site.Params.logos }}
       <a href="{{ relURL .url }}">
       {{ if .img }}
       <img src="{{ relURL .img }}" alt="{{ .alt }}" />
@@ -61,7 +61,7 @@
       {{ .alt }}
       {{ end }}
       </a>
-    {{ end }}
+    {{ end -}}
     </div>
     <div class="menu">
       {{- $active := "" -}}

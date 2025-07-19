@@ -1,8 +1,8 @@
 ---
-title: My Posts
-subtitle:
+title: 
+subtitle: Things I find interesting
 menu:
   main:
-    name: Blog
+    name: Posts
     weight: 2
 ---
