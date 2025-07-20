@@ -1,0 +1,5 @@
+{{ if .IsPage }}
+{{ with or (or .Params.author (index (or .Site.Params.author dict) .Section)) "" }}
+<span class="author">{{ . }}</span>
+{{ end }}
+{{ end }}

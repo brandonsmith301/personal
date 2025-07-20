@@ -1,6 +1,6 @@
 ---
-title: 
-subtitle: Fun problems I have come across
+title:  Problems
+subtitle: 
 menu:
   main:
     name: Problems

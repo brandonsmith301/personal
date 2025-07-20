@@ -1,13 +1,14 @@
 ---
-title: 
-subtitle:   
-author: ""
+title: Home
+subtitle:    
+author: 
 menu:
   main:
     name: Home
     weight: 1
 ---
-### About Me
+
+## About me
 
 My name is Brandon, and I work with data at Monash University.
 
@@ -17,7 +18,7 @@ I am interested in machine learning, optimisation theory, and anything related t
 
 Besides all of the above, my other favourites in the world is my partner and our dog. [Hannah](https://portfolio-dun-three-71.vercel.app/) is a software engineer, and Muffin is a 20kg ball of crazy (English Staffy).
 
-### Work / Education
+## Work / Education
 
 <div class="content-block">
   <div class="content-title">

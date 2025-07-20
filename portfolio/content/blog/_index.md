@@ -1,6 +1,6 @@
 ---
-title: 
-subtitle: Things I find interesting
+title: Posts
+subtitle:
 menu:
   main:
     name: Blog
