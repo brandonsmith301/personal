@@ -1,14 +1,13 @@
 ---
 title: Home
-subtitle:    
-author: 
+subtitle: 
+author:
 menu:
   main:
     name: Home
     weight: 1
 ---
 
-## About me
 
 My name is Brandon, and I work with data at Monash University.
 
