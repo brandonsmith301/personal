@@ -153,7 +153,20 @@ Cost: 196.65
 
 #### Solving for `$k>1$`
 
-To solve for `$k>1$`, we are introduced first to 
+Solving for the first `$k$` is the simplest case but when we try solve for `$k>1$` we need a better approach to know where to place the new regression line. 
+
+Bagirov et al. (2013) proposed an auxiliary function to help us answer this question, which is very similar in both structure and purpose to the <a href="/blog/2025-06-27-modified-global-k-means/#auxiliary-function" target="_blank" rel="noopener noreferrer">auxiliary function</a> in the modified global `$k$`-means algorithm.
+
+The auxiliary function in the paper is defined as:
+
+`$$\tilde{f}_k(u,v) = \sum_{(a,b) \in A} \min\{r_{ab}^{k-1}, h(u,v,a,b)\}$$`
+
+where `$r_{ab}^{k-1}$` is the regression error for point `$(a,b)$` from our existing `$k-1$` regression lines.
+
+
+
+
+
 
 
 [^1]: Bagirov, A. M., Ugon, J., & Mirzayeva, H. (2013). Nonsmooth nonconvex optimization approach to clusterwise linear regression problems. European Journal of Operational Research, 229(1), 132–142. https://doi.org/10.1016/j.ejor.2013.02.059
