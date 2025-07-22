@@ -9,7 +9,7 @@ menu:
 ---
 
 
-My name is Brandon, and I work with data at Monash University.
+My name is Brandon, and I am a data analyst at Monash University.
 
 I tend to jump between various topics of interest, and I've realised that I need a way to stay consistent. The true purpose here is to provide myself with a space to share the things I am currently learning. 
 
@@ -26,7 +26,7 @@ Besides all of the above, my other favourites in the world is my partner and our
   <div class="content-box">
     <div class="content-entry">
       <div>
-        <strong>Data & Systems</strong><br>
+        <strong>Data Analyst</strong><br>
         <em>Monash University</em><br>
         <div class="content-description">Planning and Performance, Faculty of Arts</div>
       </div>

@@ -161,10 +161,35 @@ The auxiliary function in the paper is defined as:
 
 `$$\tilde{f}_k(u,v) = \sum_{(a,b) \in A} \min\{r_{ab}^{k-1}, h(u,v,a,b)\}$$`
 
-where `$r_{ab}^{k-1}$` is the regression error for point `$(a,b)$` from our existing `$k-1$` regression lines.
+where `$r_{ab}^{k-1}$` is the regression error for point `$(a,b)$` from our existing `$k-1$` regression lines. In fact, the regression error is akin to `$d_i^{k-1}$` in the modified global `$k$`-means algorithm which is the distance from point `$i$` to its closest existing center.
 
+To show this auxiliary function, we can write the following code:
 
+```python
+def auxiliary_function(u, v, A, errors):
+    costs = 0.0
+    for i in range(len(A)):
+        e = (u * A[i, 0] + v - A[i, 1]) ** 2
+        costs += min(errors[i], e)
+    return costs
+```
 
+The function takes in the new regression line `$(u,v)$` and the matrix `$A$` which contains `$(a^i, b_i)$`. It also needs the errors computed from our `$k-1$` regression lines. 
+
+To compute this, we can write the following code:
+
+```python
+errors = []
+for i in range(len(A)):
+    e = (past[1][0] * A[i, 0] + past[1][1] - A[i, 1]) ** 2
+    errors.append(e)
+```
+
+The errors we are computing is the squared error between the predicted value and the actual value, where the higher the error the darker the point and the lower the error the lighter the point.
+
+Now we can plot the errors as follows:
+
+![k=1 m=100 n=1 solve for k=1](/images/2025-07-17-nc-ns-clr-4.svg)
 
 
 
