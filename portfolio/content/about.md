@@ -9,7 +9,7 @@ menu:
 ---
 
 
-My name is Brandon, and I am a data analyst at Monash University.
+My name is Brandon, and this is just a place for me to share my thoughts and learnings.
 
 I tend to jump between various topics of interest, and I've realised that I need a way to stay consistent. The true purpose here is to provide myself with a space to share the things I am currently learning. 
 
