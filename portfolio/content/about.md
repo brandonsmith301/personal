@@ -21,7 +21,7 @@ Besides all of the above, my other favourites in the world is my partner and our
 
 <div class="content-block">
   <div class="content-title">
-    <h2>Experience</h2>
+    <h4>Experience</h4>
   </div>
   <div class="content-box">
     <div class="content-entry">
@@ -45,7 +45,7 @@ Besides all of the above, my other favourites in the world is my partner and our
 
 <div class="content-block">
   <div class="content-title">
-    <h2>Education</h2>
+    <h4>Education</h4>
   </div>
   <div class="content-box">
     <div class="content-entry">
@@ -68,7 +68,7 @@ Besides all of the above, my other favourites in the world is my partner and our
 
 <div class="content-block">
   <div class="content-title">
-    <h2>Awards</h2>
+    <h4>Awards</h4>
   </div>
   <div class="content-box">
     <div class="content-entry">

@@ -7,10 +7,10 @@
 
 .content-title {
   flex: 0 0 100px;
-  padding-top: 0rem;
+  padding-top: 1.8rem;
 }
 
-.content-title h2 {
+.content-title h4 {
   margin: 0;
   font-size: 1rem;
   font-weight: bold;
