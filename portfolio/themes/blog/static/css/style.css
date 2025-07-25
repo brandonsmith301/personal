@@ -506,6 +506,22 @@ iframe {
 }
 
 @media (max-width: 767px) {
+  .blog .main {
+    margin-left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .blog .toc-line {
+    margin-left: 0;
+    padding-left: 0;
+  }
+
+  .blog.single .main {
+    width: 100%;
+    max-width: 100%;
+  }
+
   .side-note {
     display: none;
   }
