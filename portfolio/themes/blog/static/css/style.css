@@ -371,6 +371,25 @@ li li {
   content: " · ";
 }
 
+@media only screen and (max-width: 767px) {
+  body {
+    font-size: 1.2em;
+  }
+
+  .main {
+    width: 100%;
+    margin: 0;
+  }
+
+  .menu {
+    font-size: 1.2em;
+  }
+
+  h1.title {
+    font-size: 2em;
+  }
+}
+
 @media (min-width: 768px) {
   body {
     padding: 3.5em 2.5em;
@@ -484,4 +503,20 @@ iframe {
   margin: auto;
   width: var(--text-width);
   max-width: var(--text-width);
+}
+
+@media (max-width: 767px) {
+  .side-note {
+    display: none;
+  }
+
+  .content-description {
+    white-space: normal;
+    max-width: none;
+  }
+
+  .content-block {
+    flex-direction: column;
+    align-items: stretch;
+  }
 }

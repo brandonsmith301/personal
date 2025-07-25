@@ -185,13 +185,11 @@ for i in range(len(A)):
     errors.append(e)
 ```
 
-The errors we are computing is the squared error between the predicted value and the actual value, where the higher the error the darker the point and the lower the error the lighter the point.
-
-Now we can plot the errors as follows:
+The errors we are computing is the squared error between the predicted value and the actual value. If we plot our data points and use the errors as the colour of the points, we get the following:
 
 ![k=1 m=100 n=1 solve for k=1](/images/2025-07-17-nc-ns-clr-4.svg)
 
-
+The darker points are poorly fit by our current regression line and are good candidates for a second regression line.
 
 
 [^1]: Bagirov, A. M., Ugon, J., & Mirzayeva, H. (2013). Nonsmooth nonconvex optimization approach to clusterwise linear regression problems. European Journal of Operational Research, 229(1), 132–142. https://doi.org/10.1016/j.ejor.2013.02.059

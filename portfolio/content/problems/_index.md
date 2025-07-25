@@ -1,7 +1,7 @@
 ---
 title:  Problems
 subtitle: 
-menu:
+menu: 
   main:
     name: Problems
     weight: 3
