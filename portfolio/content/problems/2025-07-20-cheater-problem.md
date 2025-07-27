@@ -5,7 +5,7 @@ author:
 date: '2025-07-20'
 tags:
   - Probability
-  - Bayes' Theorem
+  - Conditional Probability
 ---
 
 Problem:

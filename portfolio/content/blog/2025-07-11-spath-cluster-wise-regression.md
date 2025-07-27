@@ -4,7 +4,6 @@ subtitle:
 author:
 date: '2025-07-11'
 tags:
-- Clustering
 - Nonsmooth optimisation
 - Clusterwise Linear Regression
 ---

@@ -5,7 +5,6 @@ author:
 date: '2025-07-17'
 draft: true
 tags:
-- Clustering
 - Nonsmooth optimisation
 - Clusterwise Linear Regression
 ---
@@ -110,11 +109,9 @@ In a previous <a href="/blog/2025-06-27-modified-global-k-means" target="_blank"
 
 Now for those who do not know the modified global `$k$`-means algorithm, that is ok as I will discuss the incremental approach in detail again, for the sake of completeness. 
 
-### Incremental Steps
+### First Steps
 
-To understand the algorithm, I found that it is best to just go through each step one by one and see how it works. Then, at the end, we can consolidate the steps into a single function.
-
-#### Solving for `$k=1$`
+***Solving for `$k=1$`***
  
 In the case of `$k=1$`, we are simply fitting a single linear regression model to the data. This is a standard linear regression problem and we have already shown what this looks like [earlier](#dataset).
 
@@ -151,9 +148,11 @@ print(obj(past[1][0], past[1][1], A[:, 0], A[:, 1], p=2))
 Cost: 196.65
 ```
 
-#### Solving for `$k>1$`
+***Solving for `$k>1$`***
 
 Solving for the first `$k$` is the simplest case but when we try solve for `$k>1$` we need a better approach to know where to place the new regression line. 
+
+### Auxiliary Function
 
 Bagirov et al. (2013) proposed an auxiliary function to help us answer this question, which is very similar in both structure and purpose to the <a href="/blog/2025-06-27-modified-global-k-means/#auxiliary-function" target="_blank" rel="noopener noreferrer">auxiliary function</a> in the modified global `$k$`-means algorithm.
 
@@ -169,7 +168,7 @@ To show this auxiliary function, we can write the following code:
 def auxiliary_function(u, v, A, errors):
     costs = 0.0
     for i in range(len(A)):
-        e = (u * A[i, 0] + v - A[i, 1]) ** 2
+        e = h(A[i, 0], A[i, 1], u, v)
         costs += min(errors[i], e)
     return costs
 ```
@@ -181,15 +180,83 @@ To compute this, we can write the following code:
 ```python
 errors = []
 for i in range(len(A)):
-    e = (past[1][0] * A[i, 0] + past[1][1] - A[i, 1]) ** 2
+    e = h(past[1][0], past[1][1], A[i, 0], A[i, 1])
     errors.append(e)
 ```
 
-The errors we are computing is the squared error between the predicted value and the actual value. If we plot our data points and use the errors as the colour of the points, we get the following:
+The errors we are computing is the squared error between the predicted value and the actual value. If we plot the errors as the colour of our data points, we get the following:
 
 ![k=1 m=100 n=1 solve for k=1](/images/2025-07-17-nc-ns-clr-4.svg)
 
-The darker points are poorly fit by our current regression line and are good candidates for a second regression line.
+The darker points show where the data points are poorly fit by our current regression line and are good candidates for a second regression line.
+
+### Partitioning the Space
+
+With the defined auxiliary function, we want to: 
+
+`$$\min_{u,v} \tilde{f}_k(u,v) \text{ subject to } u \in \mathbb{R}^n, v \in \mathbb{R}$$`
+
+This optimisation problem is nonconvex and nonsmooth with potentially many local minima. Specifically, Bagirov et al. (2013) noted that:
+
+>This problem is nonconvex and therefore it may have a large number of local solutions.
+
+Now similar to the discussion regarding <a href="/blog/2025-06-27-modified-global-k-means/#partitioning-the-space" target="_blank" rel="noopener noreferrer">partitioning the space</a> in the modified global `$k$`-means algorithm we also want to partition the space for the clusterwise linear regression problem into two regions denoted by sets `$C_k$` and `$\overline{C_k}$`.
+
+Our first set `$C_k$` contains all hyperplanes that are worse than or equal to the previous iteration for every single data point. 
+
+`$$C_k = \{(u,v) \in \mathbb{R}^{n+1} : h(u,v,a,b) > r_{ab}^{k-1} \quad \forall (a,b) \in A\}$$`
+
+This means that any starting point in this set is useless since the objective function is constant over this set. Fortunately, we have another set `$\overline{C_k}$` which is constructed as follows:
+
+`$$\overline{C_k} = \{(u,v) \in \mathbb{R}^{n+1} : \exists(a,b) \in A : h(u,v,a,b) < r_{ab}^{k-1}\}$$`
+
+Any hyperplane in `$\overline{C_k}$` is better than our previous iteration for at least one data point. This means we want to start strictly in this set as it guarantees that our objective function will decrease.
+
+### Finding Initial Solutions
+
+From above we know that we want to start in `$\overline{C_k}$` but since this set is defined over the continuous space `$\mathbb{R}^{n+1}$` we can't use it directly as there are infinitely many points in this set. Instead, we want to use the points in `$A$` to guide the search through the space.
+
+If you recall, we are in iteration `$k$` of the algorithm, so we already have `$k-1$` regression lines from previous iterations. Each data point `$(a,b)$` is currently assigned to whichever of these `$k-1$` lines fits it best.
+
+To compute the best fit, we can write the following code:
+
+```python
+def get_best_fit(a, b, past):
+    best_j = None
+    error = np.inf
+
+    for j, (x, y) in past.items():
+        e = h(x, y, a, b)
+        if e < error:
+            error = e
+            best_j = j
+
+    return best_j
+```
+
+Then we want to create a hyperplane parellel to the best fit such that it passes through the point `$(a,b)$`. This is constructed as follows:
+
+`$$x_{ab} = x_j \quad \text{and} \quad y_{ab} = b - \langle x_j, a \rangle$$`
+
+This means we are using the same slope as the best fit but we are using the point `$(a,b)$` to compute the intercept. Computationally, we can write this as:
+
+```python
+def get_init_solutions(A, past):
+    candidates = []
+
+    for a, b in A:
+        j = get_best_fit(a, b, past)
+        x_ab = past[j][0].copy()
+        y_ab = b - x_ab * a
+
+        candidates.append((x_ab, y_ab))
+    return candidates
+```
+
+This construction guarantees that each canidate hyperplane `$(x_{ab}, y_{ab})$` is in `$\overline{C_k}$`. 
+
+### Full Algorithm
+
 
 
 [^1]: Bagirov, A. M., Ugon, J., & Mirzayeva, H. (2013). Nonsmooth nonconvex optimization approach to clusterwise linear regression problems. European Journal of Operational Research, 229(1), 132–142. https://doi.org/10.1016/j.ejor.2013.02.059
