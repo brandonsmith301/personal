@@ -4,15 +4,30 @@
 <div class="main{{ if not .Content }} archive{{ end }}">
   {{ .Content }}
   {{ block "page-list" . }}
+    {{ $prevDate := "" }}
     {{ range .RegularPages }}
-      <div class="toc-line">
-        <a href="{{ .RelPermalink }}">
-          <div class="meta-line small">
-            {{ partial "meta.html" . }}
-          </div>
-          {{ .Title | markdownify }}
-        </a>
-      </div>
+      {{ $currentDate := .Date.Format "2006-01-02" }}
+      {{ if ne $currentDate $prevDate }}
+        <div class="toc-line">
+          <a href="{{ .RelPermalink }}">
+            <div class="meta-line small">
+              <span class="date">{{ $currentDate }}</span>
+              {{ partial "meta-no-date.html" . }}
+            </div>
+            {{ .Title | markdownify }}
+          </a>
+        </div>
+        {{ $prevDate = $currentDate }}
+      {{ else }}
+        <div class="toc-line indented">
+          <a href="{{ .RelPermalink }}">
+            <div class="meta-line small">
+              {{ partial "meta-no-date.html" . }}
+            </div>
+            {{ .Title | markdownify }}
+          </a>
+        </div>
+      {{ end }}
     {{ end }}
   {{ end }}
   {{ partial "main_extra.html" . }}

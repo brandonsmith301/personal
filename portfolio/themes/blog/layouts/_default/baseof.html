@@ -11,16 +11,30 @@
 {{ .Content }}
 
 {{ block "page-list" . }}
+{{ $prevDate := "" }}
 {{ range .RegularPages }}
-
+{{ $currentDate := .Date.Format "2006-01-02" }}
+{{ if ne $currentDate $prevDate }}
 <div class="toc-line">
   <a href="{{ .RelPermalink }}">
     <div class="meta-line small">
-        {{ partial "meta.html" . }}
+      <span class="date">{{ $currentDate }}</span>
+      {{ partial "meta-no-date.html" . }}
+    </div>
+    {{ .Title | markdownify }}
+  </a>
+</div>
+{{ $prevDate = $currentDate }}
+{{ else }}
+<div class="toc-line indented">
+  <a href="{{ .RelPermalink }}">
+    <div class="meta-line small">
+        {{ partial "meta-no-date.html" . }}
         </div>
     {{ .Title | markdownify }}
   </a>
 </div>
+{{ end }}
 <!-- {{ block "summary" . }}
 {{ end }} -->
 {{ end }} 

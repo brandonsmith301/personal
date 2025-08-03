@@ -302,3 +302,13 @@ sup a, .footnote-ref {
     align-items: stretch;
   }
 }
+
+.date {
+  margin-right: 0.25rem;
+}
+
+.toc-line.indented {
+  margin-left: calc(8.3ch + 0.5rem); 
+  margin-top: -0.5rem;
+  margin-bottom: 0.5rem;
+}
