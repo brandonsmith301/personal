@@ -3,7 +3,7 @@ title: 'k-means++: The Advantages of Careful Seeding'
 subtitle: 
 author:
 date: '2025-08-09'
-draft: true
+draft: false
 tags:
 - Nonsmooth optimisation
 - Clustering
@@ -560,8 +560,8 @@ This results in the following:
 
 `$$\begin{align*}
 E[\phi'] &\leq \left(\phi(X_{c}) + 8\phi_{OPT}(X_u)\right) \cdot (1 + H_0) + \frac{u - 0}{u} \cdot \phi(X_u) \\
-&= \left(0 + 8\phi_{OPT}(X_u)\right) \cdot 1 + 1 \cdot \phi(X_u) \\
-&= 8\phi_{OPT}(X_u) + \phi(X_u)
+&\leq \left(0 + 8\phi_{OPT}(X_u)\right) \cdot 1 + 1 \cdot \phi(X_u) \\
+&\leq 8\phi_{OPT}(X_u) + \phi(X_u)
 \end{align*}$$`
 
 This bound means that the expected potential after placing the first center is at most 8 times the optimal potential of all clusters plus their current potential before any centers are placed.
@@ -574,9 +574,9 @@ We have `$t=u$` and `$u=1$` since now we have placed a single center, which give
 
 `$$\begin{align*}
 E[\phi'] &\leq \left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot (1 + H_1) + \frac{1 - 1}{1} \cdot \phi(X_u) \\
-&= \left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot (1 + 1) + 0 \cdot \phi(X_u) \\
-&= \left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot 2 \\
-&= 2\phi(X_c) + 16\phi_{OPT}(X_u)
+&\leq \left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot (1 + 1) + 0 \cdot \phi(X_u) \\
+&\leq \left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot 2 \\
+&\leq 2\phi(X_c) + 16\phi_{OPT}(X_u)
 \end{align*}$$`
 
 In this case, we know from lemma 3.2 that `$E[\phi'] \leq \phi(\mathcal{X}_c) + 8\phi_{OPT}(\mathcal{X}_u)$`, which means this gives us the following:
@@ -602,7 +602,7 @@ In the first case they consider choosing a center from a covered cluster, which 
 Now looking back at our working example, we first get our first center:
 
 ```python
-c1 = X[np.random.choice(len(X))]
+c1 = X[C_OPT == 0][0]
 ```
 
 Then use this center to get the following cluster:
@@ -629,12 +629,10 @@ print(prob_c)
 ```
 
 ```python
-0.0074873205203997584
+0.0048291760708577755 
 ```
 
-which makes `$P_u = 1 - P_c \approx 0.9925$`.
-
-This working example reveals a few key insights. Most obviously, it shows how this case looks in practice.
+which makes `$P_u = 1 - P_c \approx 0.995$`.
 
 We can clearly see from the visualisation what "covered" and "uncovered" clusters mean, and the probability of selecting from an already covered cluster is significantly lower than selecting from an uncovered cluster.
 
@@ -654,7 +652,84 @@ E[\phi'] &\leq  P_c \cdot \left(\left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot 
 
 ***Inductive Step 2***:
 
-Now we look at the second case which is choosing a center from an uncovered cluster which the authors denote as `$A$`.
+Now we look at the second case which is choosing a center from an uncovered cluster which the authors denote as `$A$`. This happens with probability:
+
+`$$P_A = \frac{\phi(A)}{\phi} \text{ where } \phi = \phi(X_c) + \phi(X_u)$$`
+
+Using our practical example, we can calculate the probability of choosing specific from the uncovered cluster `$A$`. We choose an uncovered cluster abitrarily:
+
+```python
+u1 = X[C_OPT == 1][0]
+u = C_OPT[np.argwhere(X == u1)[0][0]] 
+A = X[C_OPT == u] 
+```
+
+where the following gives us the potential of the uncovered cluster `$A$`:
+
+```python
+phi_A = _phi(X[C_OPT == u], c1)
+```
+
+we then also want the potential of the other unconvered clusters not in `$A$`:
+
+```python
+phi_O = _phi(X[C_OPT == 2], c1)
+```
+
+then the probability of choosing `$A$` is:
+
+```python
+prob_A = phi_A / (phi_xc + (phi_A + phi_O))
+print(prob_A)
+```
+
+```python
+0.8058971324477772
+```
+
+If we plot the result we find that the uncovered cluster `$A$` is much more likely to be chosen than the other uncovered cluster `$O$`. 
+
+![A and O](/images/2025-08-09-careful-seeding-11.svg)
+
+This matches our intuition of how `$k$`-means++ works since we are more likely to choose points that are further from any existing center.
+
+Now looking back at the general proof, if we pick from an uncovered cluster, three things happen:
+
+1. `$A$` moves from `$\mathcal{X}_u$` to `$\mathcal{X}_c$`
+2. Uncovered clusters go from `$u$` to `$u-1$`
+3. We have `$t-1$` centers to place
+
+When choosing any point `$a \in A$` with the conditional probability `$p_a$`, we have the following:
+
+`$$\begin{align*}
+E[\phi'] &\leq \left(\phi(X_c) + \phi_a + 8\phi_{OPT}(X_u - A)\right) \cdot (1 + H_{t-1}) + \frac{(u-1) - (t-1)}{u-1} \cdot \phi(X_u - A) \\
+         &\leq \left(\phi(X_c) + \phi_a + 8\phi_{OPT}(X_u - A)\right) \cdot (1 + H_{t-1}) + \frac{u-t}{u-1} \cdot \phi(X_u - A) \\
+         &\leq \left(\phi(X_c) + \phi_a + 8\phi_{OPT}(X_u) - 8\phi_{OPT}(A)\right) \cdot (1 + H_{t-1}) + \frac{u-t}{u-1} \cdot (\phi(X_u) - \phi(A))
+\end{align*}$$`
+
+and by using lemma 3.2, we know that:
+
+`$$\sum_{a \in A} p_a \cdot \phi_a \leq 8\phi_{OPT}(A)$$`
+
+which means that we can replace `$\phi_a$` with `$8\phi_{OPT}(A)$` to get the following:
+
+`$$\begin{align*}
+E[\phi'] &\leq \left(\phi(X_c) + 8\phi_{OPT}(A) + 8\phi_{OPT}(X_u) - 8\phi_{OPT}(A)\right) \cdot (1 + H_{t-1}) + \frac{u-t}{u-1} \cdot (\phi(X_u) - \phi(A)) \\
+         &\leq \left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot (1 + H_{t-1}) + \frac{u-t}{u-1} \cdot (\phi(X_u) - \phi(A))
+\end{align*}$$`
+
+then the result including the probability of choosing `$A$` is:
+
+`$$\begin{align*}
+E[\phi'] &\leq \frac{\phi(A)}{\phi} \cdot \left[\left(\phi(X_c) + 8\phi_{OPT}(X_u)\right) \cdot (1 + H_{t-1}) + \frac{u-t}{u-1} \cdot (\phi(X_u) - \phi(A))\right]
+\end{align*}$$`
+
+This derived result gives us the contribution of choosing from one specific uncovered cluster `$A$`, however, the algorithm itself doesn't know which cluster it will choose from and therefore we need to account for all possible clusters.
+
+## Incomplete Still Working
+
+`TODO:` finish lemma 3.3 and the rest of the proofs.
+
 
 [^1]: Arthur, D., & Vassilvitskii, S. (2007). k-means++: The advantages of careful seeding. In Proceedings of the Eighteenth Annual ACM-SIAM Symposium on Discrete Algorithms (pp. 1027-1035). Society for Industrial and Applied Mathematics.
 
